@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary palette (Blue) -->
+    <color name="primary">#FF1565C0</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="primary_container">#FFD1E4FF</color>
+    <color name="on_primary_container">#FF001D36</color>
+
+    <!-- Secondary palette (Teal) -->
+    <color name="secondary">#FF00897B</color>
+    <color name="on_secondary">#FFFFFFFF</color>
+    <color name="secondary_container">#FFB2DFDB</color>
+    <color name="on_secondary_container">#FF00251E</color>
+
+    <!-- Surface -->
+    <color name="surface">#FFFBFBFE</color>
+    <color name="on_surface">#FF1C1B1F</color>
+    <color name="surface_variant">#FFE7E0EC</color>
+    <color name="on_surface_variant">#FF49454F</color>
+
+    <!-- Misc -->
+    <color name="outline">#FF79747E</color>
+    <color name="today_highlight">#FF1565C0</color>
+    <color name="rest_color">#FF9E9E9E</color>
+
+    <!-- Legacy colors retained for compatibility -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

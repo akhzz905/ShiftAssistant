@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">易倒班</string>
+
+    <!-- Bottom navigation -->
+    <string name="tab_today">今日班次</string>
+    <string name="tab_calendar">日历</string>
+    <string name="tab_group">小班管理</string>
+
+    <!-- Today page -->
+    <string name="no_default_group">当前无默认班次</string>
+    <string name="go_to_group_manage">前往小班管理</string>
+    <string name="all_groups_today">所有小班今日班次</string>
+    <string name="cycle_day_info">循环第%1$d天 / 共%2$d天</string>
+
+    <!-- Group management -->
+    <string name="add_group">新增小班</string>
+    <string name="edit_group">编辑小班</string>
+    <string name="group_name">小班名称</string>
+    <string name="hint_group_name">请输入小班名称</string>
+    <string name="cycle_days">循环天数</string>
+    <string name="cycle_days_value">%d 天</string>
+    <string name="today_is_day">今天是第几天</string>
+    <string name="select_color">选择颜色</string>
+    <string name="schedule_title">排班表</string>
+    <string name="day_label">第%d天</string>
+    <string name="no_groups">暂无小班，请点击右下角添加</string>
+    <string name="set_as_default">设为默认</string>
+    <string name="cancel_default">取消默认</string>
+    <string name="default_mark">★ 默认</string>
+
+    <!-- Shift type management -->
+    <string name="shift_type_manage">班次管理</string>
+    <string name="add_shift_type">新增班次</string>
+    <string name="edit_shift_type">编辑班次</string>
+    <string name="shift_name">班次名称</string>
+    <string name="hint_shift_name">请输入班次名称</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="current_day">当日</string>
+    <string name="previous_day">前一日</string>
+    <string name="next_day">后一日</string>
+    <string name="cross_day_note_prev">说明：此班次起始时间在前一日，即该班次属于结束时间所在的那一天</string>
+    <string name="cross_day_note_next">说明：此班次结束时间在后一日，即该班次属于开始时间所在的那一天</string>
+    <string name="no_shift_types">暂无班次类型，请先添加</string>
+    <string name="no_shift_types_hint">请先在班次管理中添加班次类型</string>
+
+    <!-- Common -->
+    <string name="rest">休息</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="confirm_delete_group">确定要删除小班「%s」吗？</string>
+    <string name="confirm_delete_shift_type">确定要删除班次类型「%s」吗？</string>
+    <string name="input_required">此项不能为空</string>
+
+    <!-- Calendar -->
+    <string name="month_view">默认小班视图</string>
+    <string name="group_view">班组视图</string>
+    <string name="today">今天</string>
+    <string name="day_detail_title">%s 班次详情</string>
+
+    <!-- Color picker -->
+    <string name="pick_color">选择小班颜色</string>
+</resources>
