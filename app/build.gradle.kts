@@ -21,9 +21,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            // 给 Debug 包名追加后缀
+            applicationIdSuffix=".debug"
+        }
         release {
             optimization {
-                enable = false
+                enable = true
             }
         }
     }
@@ -43,7 +47,10 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     testImplementation(libs.junit)
+    testImplementation(libs.json.test)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.zxing.core)
+    implementation(libs.zxing.embedded)
 }

@@ -67,6 +67,8 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
                 .inflate(R.layout.dialog_edit_shift_type, null);
 
         TextInputEditText etName = dialogView.findViewById(R.id.et_name);
+        View colorPreview = dialogView.findViewById(R.id.color_preview);
+        MaterialButton btnPickColor = dialogView.findViewById(R.id.btn_pick_color);
         MaterialButton btnStartTime = dialogView.findViewById(R.id.btn_start_time);
         MaterialButton btnEndTime = dialogView.findViewById(R.id.btn_end_time);
         Chip chipStartPrev = dialogView.findViewById(R.id.chip_start_prev);
@@ -75,11 +77,12 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
         Chip chipEndNext = dialogView.findViewById(R.id.chip_end_next);
         TextView tvCrossDayNote = dialogView.findViewById(R.id.tv_cross_day_note);
 
-        // Time state holders
+        // Time and Color state holders
         final int[] startMinutes = {480};  // default 08:00
         final int[] endMinutes = {960};    // default 16:00
         final int[] startDayOffset = {0};  // 0 = current day
         final int[] endDayOffset = {0};    // 0 = current day
+        final int[] selectedColor = {cn.akhzz.shiftassistant.util.ColorUtils.GROUP_COLORS[0]};
 
         // Populate if editing
         if (existing != null) {
@@ -88,6 +91,7 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
             endMinutes[0] = existing.endTimeMinutes;
             startDayOffset[0] = existing.startDayOffset;
             endDayOffset[0] = existing.endDayOffset;
+            selectedColor[0] = existing.color;
 
             btnStartTime.setText(existing.getStartTimeString());
             btnEndTime.setText(existing.getEndTimeString());
@@ -102,17 +106,45 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
             } else {
                 chipEndCurrent.setChecked(true);
             }
+        } else {
+            java.util.List<Integer> usedColors = new java.util.ArrayList<>();
+            if (adapter.getItemCount() > 0) {
+                for (ShiftType type : adapter.getCurrentList()) {
+                    usedColors.add(type.color);
+                }
+            }
+            selectedColor[0] = cn.akhzz.shiftassistant.util.ColorUtils.getNextAvailableColor(usedColors);
         }
 
-        // Cross-day note update lambda
+        Runnable updateColorPreview = () -> {
+            android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+            bg.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            bg.setColor(selectedColor[0]);
+            colorPreview.setBackground(bg);
+        };
+        updateColorPreview.run();
+
+        btnPickColor.setOnClickListener(v -> {
+            ColorPickerDialog dialog = new ColorPickerDialog(this, color -> {
+                selectedColor[0] = color;
+                updateColorPreview.run();
+            });
+            dialog.show();
+        });
+
         Runnable updateCrossDayNote = () -> {
-            boolean isCross = startDayOffset[0] != 0 || endDayOffset[0] != 0;
-            if (isCross) {
+            boolean startIsPrev = startDayOffset[0] != 0;
+            boolean endIsNext = endDayOffset[0] != 0;
+            if (startIsPrev || endIsNext) {
                 tvCrossDayNote.setVisibility(View.VISIBLE);
-                if (startDayOffset[0] == -1) {
-                    tvCrossDayNote.setText(R.string.cross_day_note_prev);
+                String name = etName.getText().toString().trim();
+                if (name.isEmpty()) name = "该班次";
+                String startTime = btnStartTime.getText().toString();
+                String endTime = btnEndTime.getText().toString();
+                if (startIsPrev) {
+                    tvCrossDayNote.setText(getString(R.string.cross_day_note_prev, name, startTime, endTime));
                 } else {
-                    tvCrossDayNote.setText(R.string.cross_day_note_next);
+                    tvCrossDayNote.setText(getString(R.string.cross_day_note_next, name, startTime, endTime));
                 }
             } else {
                 tvCrossDayNote.setVisibility(View.GONE);
@@ -120,10 +152,24 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
         };
         updateCrossDayNote.run();
 
+        etName.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                updateCrossDayNote.run();
+            }
+        });
+
         // Chip listeners
         chipStartPrev.setOnCheckedChangeListener((v, checked) -> {
             if (checked) {
                 startDayOffset[0] = -1;
+                if (chipEndNext.isChecked()) {
+                    chipEndCurrent.setChecked(true);
+                }
                 updateCrossDayNote.run();
             }
         });
@@ -142,6 +188,9 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
         chipEndNext.setOnCheckedChangeListener((v, checked) -> {
             if (checked) {
                 endDayOffset[0] = 1;
+                if (chipStartPrev.isChecked()) {
+                    chipStartCurrent.setChecked(true);
+                }
                 updateCrossDayNote.run();
             }
         });
@@ -159,6 +208,7 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
                 startMinutes[0] = picker.getHour() * 60 + picker.getMinute();
                 btnStartTime.setText(String.format("%02d:%02d",
                         picker.getHour(), picker.getMinute()));
+                updateCrossDayNote.run();
             });
             picker.show(getSupportFragmentManager(), "start_time");
         });
@@ -175,6 +225,7 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
                 endMinutes[0] = picker.getHour() * 60 + picker.getMinute();
                 btnEndTime.setText(String.format("%02d:%02d",
                         picker.getHour(), picker.getMinute()));
+                updateCrossDayNote.run();
             });
             picker.show(getSupportFragmentManager(), "end_time");
         });
@@ -198,11 +249,12 @@ public class ShiftTypeManageActivity extends AppCompatActivity {
                         existing.endTimeMinutes = endMinutes[0];
                         existing.startDayOffset = startDayOffset[0];
                         existing.endDayOffset = endDayOffset[0];
+                        existing.color = selectedColor[0];
                         repository.updateShiftType(existing);
                     } else {
                         ShiftType newType = new ShiftType(name,
                                 startMinutes[0], endMinutes[0],
-                                startDayOffset[0], endDayOffset[0]);
+                                startDayOffset[0], endDayOffset[0], selectedColor[0]);
                         repository.insertShiftType(newType);
                     }
                 })

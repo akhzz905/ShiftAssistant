@@ -39,6 +39,10 @@ public class ShiftTypeListAdapter extends RecyclerView.Adapter<ShiftTypeListAdap
         notifyDataSetChanged();
     }
 
+    public List<ShiftType> getCurrentList() {
+        return items;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,13 +58,17 @@ public class ShiftTypeListAdapter extends RecyclerView.Adapter<ShiftTypeListAdap
         holder.tvName.setText(type.name);
         holder.tvTime.setText(type.getFullTimeDescription());
 
-        // Cross-day note
-        if (type.isCrossDay()) {
+        android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+        bg.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        bg.setColor(type.color != 0 ? type.color : cn.akhzz.shiftassistant.util.ColorUtils.GROUP_COLORS[1]);
+        holder.colorDot.setBackground(bg);
+
+        if (type.startDayOffset != 0 || type.endDayOffset != 0) {
             holder.tvCrossDayNote.setVisibility(View.VISIBLE);
             if (type.startDayOffset == -1) {
-                holder.tvCrossDayNote.setText(R.string.cross_day_note_prev);
+                holder.tvCrossDayNote.setText(holder.itemView.getContext().getString(R.string.cross_day_note_prev, type.name, type.getStartTimeString(), type.getEndTimeString()));
             } else {
-                holder.tvCrossDayNote.setText(R.string.cross_day_note_next);
+                holder.tvCrossDayNote.setText(holder.itemView.getContext().getString(R.string.cross_day_note_next, type.name, type.getStartTimeString(), type.getEndTimeString()));
             }
         } else {
             holder.tvCrossDayNote.setVisibility(View.GONE);
@@ -83,12 +91,14 @@ public class ShiftTypeListAdapter extends RecyclerView.Adapter<ShiftTypeListAdap
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvTime, tvCrossDayNote;
+        View colorDot;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_name);
             tvTime = itemView.findViewById(R.id.tv_time);
             tvCrossDayNote = itemView.findViewById(R.id.tv_cross_day_note);
+            colorDot = itemView.findViewById(R.id.color_dot);
         }
     }
 }

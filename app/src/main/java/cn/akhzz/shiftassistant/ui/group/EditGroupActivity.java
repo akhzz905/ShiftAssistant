@@ -101,6 +101,14 @@ public class EditGroupActivity extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             shiftTypes = repository.getAllShiftTypesSync();
 
+            // Find used colors for next available logic
+            List<ShiftGroup> allGroups = repository.getAllGroupsSync();
+            List<Integer> usedColors = new ArrayList<>();
+            for (ShiftGroup g : allGroups) {
+                usedColors.add(g.color);
+            }
+            final int nextColor = ColorUtils.getNextAvailableColor(usedColors);
+
             // If editing, load existing group
             if (groupId != -1) {
                 existingGroup = repository.getGroupById(groupId);
@@ -118,6 +126,8 @@ public class EditGroupActivity extends AppCompatActivity {
                 if (existingGroup != null) {
                     populateExistingData();
                 } else {
+                    selectedColor = nextColor;
+                    updateColorPreview();
                     updateScheduleList();
                 }
             });

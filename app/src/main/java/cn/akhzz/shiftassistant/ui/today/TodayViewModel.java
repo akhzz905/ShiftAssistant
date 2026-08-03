@@ -63,6 +63,16 @@ public class TodayViewModel extends AndroidViewModel {
                 data.allGroupShifts.add(new GroupShiftInfo(group, shift));
             }
 
+            // Sort by shift start time, placing rest (shift == null) at the end
+            data.allGroupShifts.sort((a, b) -> {
+                int aTime = a.shift != null ? a.shift.getEffectiveStartMinutes() : Integer.MAX_VALUE;
+                int bTime = b.shift != null ? b.shift.getEffectiveStartMinutes() : Integer.MAX_VALUE;
+                if (aTime != bTime) {
+                    return Integer.compare(aTime, bTime);
+                }
+                return Long.compare(a.group.id, b.group.id);
+            });
+
             todayData.postValue(data);
         });
     }

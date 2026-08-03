@@ -39,8 +39,8 @@
     <string name="current_day">当日</string>
     <string name="previous_day">前一日</string>
     <string name="next_day">后一日</string>
-    <string name="cross_day_note_prev">说明：此班次起始时间在前一日，即该班次属于结束时间所在的那一天</string>
-    <string name="cross_day_note_next">说明：此班次结束时间在后一日，即该班次属于开始时间所在的那一天</string>
+    <string name="cross_day_note_prev">注：以今天为例，今天%1$s指的是昨天%2$s-今天%3$s</string>
+    <string name="cross_day_note_next">注：以今天为例，今天%1$s指的是今天%2$s-明天%3$s</string>
     <string name="no_shift_types">暂无班次类型，请先添加</string>
     <string name="no_shift_types_hint">请先在班次管理中添加班次类型</string>
 
@@ -62,4 +62,25 @@
 
     <!-- Color picker -->
     <string name="pick_color">选择小班颜色</string>
+
+    <!-- QR Share and Scan -->
+    <string name="action_scan_qr">扫码</string>
+    <string name="action_share_qr">分享</string>
+    <string name="share_qr_title">分享我的小班与排班</string>
+    <string name="share_qr_desc">扫描此二维码即可导入全部班次及小班</string>
+    <string name="save_to_album">保存至相册</string>
+    <string name="share_via_system">系统分享</string>
+    <string name="qr_saved_to_album">二维码已保存至系统相册</string>
+    <string name="qr_save_failed">保存图片失败</string>
+    <string name="import_confirm_title">确认导入排班数据</string>
+    <string name="import_confirm_summary">共扫取到 %1$d 个小班与 %2$d 种班次，是否全部添加导入至本地？\n（同名小班将自动附加“导入”后缀，既有重复时间的同名称班次将自动去重合并）</string>
+    <string name="import_success">成功导入 %1$d 个小班！去重复 %2$d 个同名班次，新增 %3$d 个班次。</string>
+    <string name="camera_permission_needed">需要授予相机权限才能打开摄像头进行扫码识别</string>
+    <string name="scan_failed">解析异常: %s</string>
+    <string name="action_select_album">从相册选择</string>
+    <string name="decode_no_qr">未在选中的照片内识别到有效的排班二维码</string>
+    <string name="action_import_qr">导入</string>
+    <string name="import_option_title">选择导入方式</string>
+    <string name="import_option_scan">扫描二维码</string>
+    <string name="import_option_album">从相册选取</string>
 </resources>

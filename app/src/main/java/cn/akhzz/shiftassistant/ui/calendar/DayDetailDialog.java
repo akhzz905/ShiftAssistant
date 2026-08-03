@@ -84,6 +84,15 @@ public class DayDetailDialog extends DialogFragment {
                 data.add(new GroupShift(group, shift));
             }
 
+            data.sort((a, b) -> {
+                int aTime = a.shift != null ? a.shift.getEffectiveStartMinutes() : Integer.MAX_VALUE;
+                int bTime = b.shift != null ? b.shift.getEffectiveStartMinutes() : Integer.MAX_VALUE;
+                if (aTime != bTime) {
+                    return Integer.compare(aTime, bTime);
+                }
+                return Long.compare(a.group.id, b.group.id);
+            });
+
             requireActivity().runOnUiThread(() -> {
                 container.removeAllViews();
 

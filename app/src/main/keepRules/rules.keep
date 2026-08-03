@@ -10,3 +10,16 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# 保留 Room 自动生成的数据库实现类及其构造方法
+-keep class * extends androidx.room.RoomDatabase {
+    <init>();
+}
+-keep class *_Impl {
+    <init>();
+}
+
+# 保留 Room 数据实体类（Entity）和 Dao 接口的实现
+-keep @androidx.room.Entity class *
+-keepclassmembers class * {
+    @androidx.room.Dao *;
+}

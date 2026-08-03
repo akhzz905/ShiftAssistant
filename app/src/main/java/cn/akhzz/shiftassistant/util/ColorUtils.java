@@ -32,6 +32,23 @@ public class ColorUtils {
     }
 
     /**
+     * Get the next available color that is not in the used list.
+     * If all are used, returns the first color.
+     */
+    public static int getNextAvailableColor(java.util.List<Integer> usedColors) {
+        if (usedColors == null || usedColors.isEmpty()) {
+            return GROUP_COLORS[0];
+        }
+        for (int color : GROUP_COLORS) {
+            if (!usedColors.contains(color)) {
+                return color;
+            }
+        }
+        // Fallback to random if all are used
+        return GROUP_COLORS[(int)(Math.random() * GROUP_COLORS.length)];
+    }
+
+    /**
      * Get a contrasting text color (black or white) for the given background.
      * Uses relative luminance calculation.
      */

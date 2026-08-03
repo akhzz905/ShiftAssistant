@@ -13,134 +13,144 @@
         app:title="@string/tab_today"
         app:titleTextColor="?attr/colorOnSurface" />
 
-    <FrameLayout
+    <!-- Content container -->
+    <LinearLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- Content shown when default group exists -->
-        <LinearLayout
-            android:id="@+id/content_layout"
+        <!-- Today's shift card (when default group exists) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_today"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="16dp"
             android:visibility="gone">
 
-            <!-- Today's shift card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_today"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="16dp">
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center">
+                    android:textSize="18sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:id="@+id/tv_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                <View
+                    android:id="@+id/color_bar"
+                    android:layout_width="48dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="12dp"
+                    android:background="?attr/colorPrimary" />
 
-                    <View
-                        android:id="@+id/color_bar"
-                        android:layout_width="48dp"
-                        android:layout_height="4dp"
-                        android:layout_marginTop="12dp"
-                        android:background="?attr/colorPrimary" />
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_group_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:layout_marginTop="12dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_shift_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:textColor="?attr/colorOnSurface" />
 
-                    <TextView
-                        android:id="@+id/tv_shift_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="40sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="8dp"
-                        android:textColor="?attr/colorOnSurface" />
+                <TextView
+                    android:id="@+id/tv_shift_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:id="@+id/tv_shift_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:layout_marginTop="8dp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                <TextView
+                    android:id="@+id/tv_cycle_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"
+                    android:textColor="?attr/colorOutline" />
 
-                    <TextView
-                        android:id="@+id/tv_cycle_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:layout_marginTop="12dp"
-                        android:textColor="?attr/colorOutline" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- All groups section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/all_groups_today"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_all_shifts"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp" />
-
-        </LinearLayout>
-
-        <!-- Empty state -->
-        <LinearLayout
+        <!-- Empty state card (when default group does NOT exist) -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/empty_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="32dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="16dp"
             android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/no_default_group"
-                android:textSize="18sp"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:gravity="center" />
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_go_manage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/go_to_group_manage"
-                android:layout_marginTop="16dp" />
+                <TextView
+                    android:id="@+id/tv_empty_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_default_group"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:gravity="center" />
 
-    </FrameLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_go_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_to_group_manage"
+                    android:layout_marginTop="16dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- All groups section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all_groups_today"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_all_shifts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

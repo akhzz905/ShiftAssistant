@@ -13,17 +13,19 @@ public class ShiftType {
     public int endTimeMinutes;   // 0-1439, e.g. 960 = 16:00
     public int startDayOffset;   // -1 = previous day, 0 = current day
     public int endDayOffset;     // 0 = current day, 1 = next day
+    public int color;            // Color for the shift type
 
     public ShiftType() {}
 
     @androidx.room.Ignore
     public ShiftType(String name, int startTimeMinutes, int endTimeMinutes,
-                     int startDayOffset, int endDayOffset) {
+                     int startDayOffset, int endDayOffset, int color) {
         this.name = name;
         this.startTimeMinutes = startTimeMinutes;
         this.endTimeMinutes = endTimeMinutes;
         this.startDayOffset = startDayOffset;
         this.endDayOffset = endDayOffset;
+        this.color = color;
     }
 
     public String getStartTimeString() {

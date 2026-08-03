@@ -342,7 +342,7 @@ public class ContinuousCalendarAdapter extends RecyclerView.Adapter<ContinuousCa
                 ShiftType shift = ShiftCalculator.getShiftForDate(group, date, schedules, data.shiftTypes);
 
                 if (shift != null) {
-                    int color = group.color;
+                    int color = shift.color != 0 ? shift.color : group.color;
                     if (!isFocusedMonth) {
                         color = (color & 0x00FFFFFF) | 0x50000000;
                     }
